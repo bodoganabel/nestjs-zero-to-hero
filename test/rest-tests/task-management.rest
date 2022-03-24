@@ -1,0 +1,6 @@
+
+# Get All Tasks
+GET http://localhost:3000/tasks
+
+#
+
