@@ -1,11 +1,25 @@
-
-# Get All Tasks
+### Get All Tasks
 GET http://localhost:3000/tasks HTTP/1.1
+
+
+### Get Specific Task
+GET http://localhost:3000/tasks/2a27e586-7ded-4d68-b7fa-2d138675aed3 HTTP/1.1
 
 
 
 ### Create new task
 POST http://localhost:3000/tasks HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Clean my room",
+    "description": "Lots of cleaning has to be done",
+    "bananas": "are tasty"
+}
+
+
+### Delete specific task
+DELETE http://localhost:3000/tasks/6df245ae-506c-4d55-acd2-f62d0758cfb9 HTTP/1.1
 content-type: application/json
 
 {
