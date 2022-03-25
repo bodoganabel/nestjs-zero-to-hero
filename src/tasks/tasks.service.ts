@@ -34,4 +34,9 @@ export class TasksService {
     console.log(this.tasks);
     this.tasks = this.tasks.filter((task) => task.id !== id);
   }
+
+  updateTaskById(id: string, status: string) {
+    const task = this.getTaskById(id);
+    task.status = status as TaskStatus;
+  }
 }

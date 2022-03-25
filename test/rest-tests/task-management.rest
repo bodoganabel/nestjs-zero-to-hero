@@ -27,3 +27,13 @@ content-type: application/json
     "description": "Lots of cleaning has to be done",
     "bananas": "are tasty"
 }
+
+
+
+### Update specific task's status
+PATCH http://localhost:3000/tasks/1586141f-4096-426c-8886-fdd4ddef4ab8/status HTTP/1.1
+content-type: application/json
+
+{
+    "status": "DONE"
+}
