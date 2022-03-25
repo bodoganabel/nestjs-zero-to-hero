@@ -1,6 +1,15 @@
 
 # Get All Tasks
-GET http://localhost:3000/tasks
+GET http://localhost:3000/tasks HTTP/1.1
 
-#
 
+
+### Create new task
+POST http://localhost:3000/tasks HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Clean my room",
+    "description": "Lots of cleaning has to be done",
+    "bananas": "are tasty"
+}
