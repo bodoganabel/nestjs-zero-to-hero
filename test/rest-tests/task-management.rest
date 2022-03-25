@@ -1,10 +1,11 @@
 ### Get All Tasks
 GET http://localhost:3000/tasks HTTP/1.1
 
+### Get Tasks filtered
+GET http://localhost:3000/tasks?status=DONE&title=cle HTTP/1.1
 
-### Get Specific Task
+### Get Specific Task by ID
 GET http://localhost:3000/tasks/2a27e586-7ded-4d68-b7fa-2d138675aed3 HTTP/1.1
-
 
 
 ### Create new task
@@ -31,7 +32,7 @@ content-type: application/json
 
 
 ### Update specific task's status
-PATCH http://localhost:3000/tasks/1586141f-4096-426c-8886-fdd4ddef4ab8/status HTTP/1.1
+PATCH http://localhost:3000/tasks/e961ddc9-9dcb-48be-85c2-0421961babe8/status HTTP/1.1
 content-type: application/json
 
 {
