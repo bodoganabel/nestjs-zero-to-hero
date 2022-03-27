@@ -1,6 +1,6 @@
 ### Get All Tasks
 GET http://localhost:3000/tasks HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ4NDE2OTQ1LCJleHAiOjE2NDg0MjA1NDV9.03lGSS56KWSeiRUCN8j2-HnrVSecdY5iuJJyyCdsvS8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ4NDE4NzM2LCJleHAiOjE2NDg0MjIzMzZ9.7kZGV_6f0KfMJ4y-91GtgM6YkxypyVLdlcWIJ42itCs
 
 ### Get Tasks filtered by status and title
 GET http://localhost:3000/tasks
@@ -10,11 +10,12 @@ HTTP/1.1
 
 ### Get Specific Task by ID
 GET http://localhost:3000/tasks/4b8ce21f-b1ca-4a40-855c-ae0c1a50950f HTTP/1.1
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ4NDE4NzM2LCJleHAiOjE2NDg0MjIzMzZ9.7kZGV_6f0KfMJ4y-91GtgM6YkxypyVLdlcWIJ42itCs
 
 ### Create new task
 POST http://localhost:3000/tasks HTTP/1.1
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ4NDE4NzM2LCJleHAiOjE2NDg0MjIzMzZ9.7kZGV_6f0KfMJ4y-91GtgM6YkxypyVLdlcWIJ42itCs
 
 {
     "title": "Clean my room",

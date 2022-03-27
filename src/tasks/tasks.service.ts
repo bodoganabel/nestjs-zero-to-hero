@@ -6,6 +6,7 @@ import { GetTasksFilterDto } from './dto/get-task-filter.dto';
 import { UpdateTaskStatusDto } from './dto/update-task-status.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TasksRepository } from './task.repository';
+import { User } from 'src/auth/user.entity';
 
 @Injectable()
 export class TasksService {
@@ -14,20 +15,21 @@ export class TasksService {
     private repository: TasksRepository,
   ) {}
 
-  async getTaskById(id: string): Promise<Task | undefined> {
-    const found = await this.repository.findOne(id);
+  async getTaskById(id: string, user: User): Promise<Task | undefined> {
+    const found = await this.repository.findOne({ where: { id, user } });
     if (!found) {
       throw new NotFoundException(`Task with ID ${id} does not exist`);
     }
     return found;
   }
 
-  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+  async createTask(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
     const { title, description } = createTaskDto;
     const task: Task = this.repository.create({
       title,
       description,
       status: TaskStatus.OPEN,
+      user,
     });
 
     await this.repository.save(task);
@@ -52,9 +54,10 @@ export class TasksService {
     return task;
   }
 
-  async getTasks(filterDto: GetTasksFilterDto): Promise<Task[]> {
+  async getTasks(filterDto: GetTasksFilterDto, user: User): Promise<Task[]> {
     const { status, search } = filterDto;
     const query = this.repository.createQueryBuilder('task');
+    query.where({ user });
 
     if (status) {
       query.andWhere('task.status = :status', { status: status });
@@ -62,7 +65,7 @@ export class TasksService {
 
     if (search) {
       query.andWhere(
-        'LOWER(task.title) LIKE :search OR LOWER(task.description) LIKE :search',
+        '(LOWER(task.title) LIKE :search OR LOWER(task.description) LIKE :search)',
         { search: `%${search.toLowerCase()}%` },
       );
     }
