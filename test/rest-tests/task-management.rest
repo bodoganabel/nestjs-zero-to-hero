@@ -1,8 +1,12 @@
 ### Get All Tasks
 GET http://localhost:3000/tasks HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ4NDE2OTQ1LCJleHAiOjE2NDg0MjA1NDV9.03lGSS56KWSeiRUCN8j2-HnrVSecdY5iuJJyyCdsvS8
 
 ### Get Tasks filtered by status and title
-GET http://localhost:3000/tasks?title=lots&status=DONE HTTP/1.1
+GET http://localhost:3000/tasks
+    ?title=lots
+    &status=DONE 
+HTTP/1.1
 
 ### Get Specific Task by ID
 GET http://localhost:3000/tasks/4b8ce21f-b1ca-4a40-855c-ae0c1a50950f HTTP/1.1

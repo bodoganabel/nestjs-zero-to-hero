@@ -1,5 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+export interface JwtPayload {
+  username: string;
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')

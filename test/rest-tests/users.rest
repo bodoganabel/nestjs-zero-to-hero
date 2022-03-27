@@ -1,12 +1,3 @@
-### Get All Tasks
-GET http://localhost:3000/tasks HTTP/1.1
-
-### Get Tasks filtered by status and title
-GET http://localhost:3000/tasks?title=lots&status=DONE HTTP/1.1
-
-### Get Specific Task by ID
-GET http://localhost:3000/tasks/4b8ce21f-b1ca-4a40-855c-ae0c1a50950f HTTP/1.1
-
 
 ### Create new user
 POST http://localhost:3000/auth/signup HTTP/1.1
@@ -24,25 +15,4 @@ content-type: application/json
 {
     "username": "admin",
     "password": "Pw12345_"
-}
-
-
-### Delete specific task
-DELETE http://localhost:3000/tasks/3cb32a97-646e-4b3a-9587-7a291945d5c4 HTTP/1.1
-content-type: application/json
-
-{
-    "title": "Clean my room",
-    "description": "Lots of cleaning has to be done",
-    "bananas": "are tasty"
-}
-
-
-
-### Update specific task's status
-PATCH http://localhost:3000/tasks/f8d0827e-dc8f-4a5b-9907-84b4201d89aa/status HTTP/1.1
-content-type: application/json
-
-{
-    "status": "DONE"
 }
