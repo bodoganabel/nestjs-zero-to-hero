@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Task, TaskStatus } from './task.entity';
+import { Task, ETaskStatus } from './task.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterDto } from './dto/get-task-filter.dto';
@@ -28,7 +28,7 @@ export class TasksService {
     const task: Task = this.repository.create({
       title,
       description,
-      status: TaskStatus.OPEN,
+      status: ETaskStatus.OPEN,
       user,
     });
 
@@ -49,7 +49,7 @@ export class TasksService {
   ): Promise<Task> {
     const { status } = updateTaskStatusDto;
     const task = await this.repository.findOne(id);
-    task.status = status as TaskStatus;
+    task.status = status as ETaskStatus;
     this.repository.save(task);
     return task;
   }

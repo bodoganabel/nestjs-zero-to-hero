@@ -4,7 +4,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from 'src/auth/user.entity';
+import { IJwtPayload } from 'src/auth/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +24,7 @@ export class AuthService {
     const user = await this.userRepository.findOne({ username });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      const payload: JwtPayload = { username };
+      const payload: IJwtPayload = { username };
       const accessToken: string = await this.jwtService.sign(payload);
       return { accessToken };
     } else {

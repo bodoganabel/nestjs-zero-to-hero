@@ -2,7 +2,7 @@ import { Exclude } from 'class-transformer';
 import { User } from 'src/auth/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-export enum TaskStatus {
+export enum ETaskStatus {
   OPEN = 'OPEN',
   IN_PROGRESS = 'IN_PROGRESS',
   DONE = 'DONE',
@@ -20,7 +20,7 @@ export class Task {
   description: string;
 
   @Column()
-  status: TaskStatus;
+  status: ETaskStatus;
 
   @ManyToOne((_type) => User, (user: { tasks: any }) => user.tasks, {
     eager: false,
