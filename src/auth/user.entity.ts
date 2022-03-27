@@ -1,7 +1,7 @@
 import { Task } from 'src/tasks/task.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-export interface JwtPayload {
+export interface IJwtPayload {
   username: string;
 }
 
