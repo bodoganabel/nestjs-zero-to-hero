@@ -1,6 +1,12 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { JwtRefreshTokenEntity } from './jwt.entity';
+
+export interface ISigninResponse {
+  accessToken: string;
+  refreshToken: JwtRefreshTokenEntity;
+}
 
 @Controller('auth')
 export class AuthController {
@@ -10,9 +16,9 @@ export class AuthController {
     return this.authService.signUp(authCredentialsDto);
   }
   @Post('/signin')
-  signIn(
+  async signIn(
     @Body() authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ accessToken: string }> {
-    return this.authService.signIn(authCredentialsDto);
+  ): Promise<ISigninResponse> {
+    return await this.authService.signIn(authCredentialsDto);
   }
 }
