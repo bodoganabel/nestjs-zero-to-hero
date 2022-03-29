@@ -4,6 +4,8 @@ import { join } from 'path';
 import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { JobsModule } from './jobs/jobs.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -23,6 +25,7 @@ import { ConfigModule } from '@nestjs/config';
       entities: [join(__dirname, '**', '*.entity.{ts,js}')],
     }),
     AuthModule,
+    ScheduleModule.forRoot(),
   ],
 })
 export class AppModule {}

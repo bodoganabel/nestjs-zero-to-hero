@@ -6,15 +6,12 @@ import { UserRepository } from './user.repository';
 import { JwtService } from './jwt.service.ts';
 import { JwtRepository } from './jwt.repository';
 
-export const authConfig = {
-  accessToxenExpiration: '20m', //jwt expiration string
-  autoLogoutPeriodMs: 30 * 60 * 1000,
-  cleanExpiredTokensPeriodMs: 60 * 60 * 1000,
-};
-
 @Module({
-  imports: [TypeOrmModule.forFeature([UserRepository])],
-  providers: [AuthService, JwtService, JwtRepository],
+  imports: [
+    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([JwtRepository]),
+  ],
+  providers: [AuthService, JwtService],
   controllers: [AuthController],
   exports: [JwtService],
 })

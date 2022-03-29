@@ -1,11 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { JwtRefreshTokenEntity } from './jwt.entity';
+import { JwtRefreshToken } from './jwt.entity';
 
 export interface ISigninResponse {
   accessToken: string;
-  refreshToken: JwtRefreshTokenEntity;
+  refreshToken: JwtRefreshToken;
 }
 
 @Controller('auth')

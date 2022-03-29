@@ -5,7 +5,7 @@ export interface IJwtTokenShape {
 }
 
 @Entity()
-export class JwtRefreshTokenEntity {
+export class JwtRefreshToken {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
