@@ -26,6 +26,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
     AuthModule,
     ScheduleModule.forRoot(),
+    JobsModule,
   ],
 })
 export class AppModule {}
