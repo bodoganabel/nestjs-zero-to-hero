@@ -3,9 +3,8 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './jwt-strategy';
+import { JwtService } from './jwt.service.ts';
+import { JwtRepository } from './jwt.repository';
 
 export const authConfig = {
   accessToxenExpiration: '20m', //jwt expiration string
@@ -14,18 +13,9 @@ export const authConfig = {
 };
 
 @Module({
-  imports: [
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: 'topSecret51',
-      signOptions: {
-        expiresIn: 3600,
-      },
-    }),
-    TypeOrmModule.forFeature([UserRepository]),
-  ],
-  providers: [AuthService, JwtStrategy, JwtService],
+  imports: [TypeOrmModule.forFeature([UserRepository])],
+  providers: [AuthService, JwtService, JwtRepository],
   controllers: [AuthController],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtService],
 })
 export class AuthModule {}

@@ -4,6 +4,9 @@ import { JwtRefreshTokenEntity } from './jwt.entity';
 
 @EntityRepository(JwtRefreshTokenEntity)
 export class JwtRepository extends Repository<JwtRefreshTokenEntity> {
+  constructor() {
+    super();
+  }
   async createRefreshToken(token: JwtRefreshTokenEntity): Promise<void> {
     const newRefreshToken = this.create(token);
     try {
