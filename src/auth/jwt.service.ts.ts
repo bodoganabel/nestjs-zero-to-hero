@@ -82,11 +82,20 @@ export class JwtService {
 
   public async removeExpiredJwtRefreshTokens() {
     if (appConfig.databaseType === EDatabaseType.SQL) {
-      this.jwtRepository
+      const result = await this.jwtRepository
         .createQueryBuilder()
         .delete()
         .from(JwtRefreshToken)
-        .where('autoLogout <NOW()');
+        .where('autoLogout < :now', { now: new Date() })
+        //Delete tokens, if expiration date is suspiciously too far in future
+        .orWhere('autoLogout > :securityLogoutDate', {
+          securityLogoutDate: new Date(
+            new Date().getTime() + authConfig.autoLogoutPeriodMs + 1000,
+          ),
+        })
+        .execute();
+      console.log('Executed purge of expired jwt tokens. Result: ');
+      console.log(result);
     } else {
       throw new Error(
         '❌❌❌ No NOSQL database interaction implemented. #131abb',
