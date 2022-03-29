@@ -1,6 +1,8 @@
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { JwtService } from 'src/auth/jwt.service.ts';
+import { authConfig } from 'src/config';
+
 //import { JwtService } from 'src/auth/jwt.service.ts';
 
 @Injectable()
@@ -13,9 +15,13 @@ export class JobsService implements OnApplicationBootstrap {
     this.jwtService.test();
   }
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(
+    `*/${
+      authConfig.cleanExpiredTokensPeriodMs / 1000
+    } * * * * *` /*CronExpression.EVERY_HOUR*/,
+  )
   handleCron() {
-    this.logger.debug('Called Every 5 seconds');
+    this.logger.debug('Cleanup Expired JwtRefreshTokens');
     this.jwtService.removeExpiredJwtRefreshTokens();
   }
 }

@@ -20,11 +20,7 @@ export class JwtService {
   ) {}
 
   private generateAccessToken(jwtData: IJwtTokenShape) {
-    console.log('jwtData');
-    console.log(jwtData);
     const serializedUser = { username: jwtData.username };
-    console.log('process.env.ACCESS_TOKEN_SECRET:');
-    console.log(process.env.ACCESS_TOKEN_SECRET);
     console.log('serializedUser:');
     console.log(serializedUser);
     return jwt.sign(serializedUser, process.env.ACCESS_TOKEN_SECRET as Secret, {
@@ -63,18 +59,12 @@ export class JwtService {
 
   public async authenticateUserWithJwt(clientJwt: IJwtTokenShape) {
     const accessToken = this.generateAccessToken(clientJwt);
-    console.log('accessToken');
-    console.log(accessToken);
-    console.log('this.jwtRepository:');
-    console.log(this.jwtRepository);
     const refreshToken = this.jwtRepository.create({
       token: jwt.sign(clientJwt, process.env.REFRESH_TOKEN_SECRET as Secret),
       autoLogout: new Date(
         new Date().getTime() + authConfig.autoLogoutPeriodMs,
       ),
     });
-    console.log('refreshToken');
-    console.log(refreshToken);
 
     await this.jwtRepository.save(refreshToken);
     return { accessToken, refreshToken };
