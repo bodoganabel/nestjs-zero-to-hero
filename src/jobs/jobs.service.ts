@@ -1,9 +1,7 @@
 import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Cron } from '@nestjs/schedule';
 import { JwtService } from 'src/auth/jwt.service.ts';
 import { authConfig } from 'src/config';
-
-//import { JwtService } from 'src/auth/jwt.service.ts';
 
 @Injectable()
 export class JobsService implements OnApplicationBootstrap {

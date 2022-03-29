@@ -16,3 +16,20 @@ content-type: application/json
     "username": "admin",
     "password": "Pw12345_"
 }
+
+##Refresh token
+POST http://localhost:3000/auth/token HTTP/1.1
+content-type: application/json
+
+{
+    "token": "admin",
+}
+
+
+### Log Out
+POST http://localhost:3000/auth/signout HTTP/1.1
+content-type: application/json
+
+{
+    "token": "Pw12345_"
+}
