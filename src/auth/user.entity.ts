@@ -1,6 +1,15 @@
 import { Task } from 'src/tasks/task.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Permission } from './permission.entity';
+import { Role } from './role.entity';
 
 export interface IJwtPayload {
   username: string;
@@ -18,11 +27,15 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany((_type) => Permission, (permission) => permission.user, {
+  @ManyToOne(() => Role, (role) => role.users, {
     eager: true,
   })
+  role: Role;
+
+  @ManyToMany(() => Permission)
+  @JoinTable()
   permissions: Permission[];
 
-  @OneToMany((_type) => Task, (task) => task.user, { eager: true })
+  @OneToMany(() => Task, (task) => task.user, { eager: true })
   task: Task[];
 }

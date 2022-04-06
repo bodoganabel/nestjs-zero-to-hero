@@ -1,5 +1,12 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Role } from './role.entity';
 import { User } from './user.entity';
 
 export interface IJwtPayload {
@@ -7,9 +14,9 @@ export interface IJwtPayload {
   permissions: string[];
 }
 
-enum EPermissions {
-  PERM_DELETE_USERS = 'PERM_DELETE_USERS',
-  PERM_VIEW_USERS = 'PERM_DELETE_USER',
+export enum EPermissions {
+  DELETE_USERS = 'DELETE_USERS',
+  VIEW_USERS = 'VIEW_USERS',
 }
 
 @Entity()
@@ -20,9 +27,13 @@ export class Permission {
   @Column({ unique: true })
   permission: EPermissions;
 
-  @ManyToOne((_type) => User, (user: { tasks: any }) => user.tasks, {
-    eager: false,
-  })
+  @ManyToMany(() => User)
+  @JoinTable()
   @Exclude({ toPlainOnly: true })
-  user: User;
+  users: User[];
+
+  @ManyToMany(() => Role)
+  @JoinTable()
+  @Exclude({ toPlainOnly: true })
+  roles: User[];
 }
