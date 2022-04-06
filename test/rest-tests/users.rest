@@ -1,3 +1,9 @@
+### Test endpoint
+POST http://localhost:3000/auth/test HTTP/1.1
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ5MTYyNjEyLCJleHAiOjE2NDkxNjI2Mjd9.sNMmAphCQ6cK_hOLVLz5yRt9Ul80sOPU67SGDj0SkqA
+
+
 
 ### Create new user
 POST http://localhost:3000/auth/signup HTTP/1.1
@@ -17,12 +23,12 @@ content-type: application/json
     "password": "Pw12345_"
 }
 
-##Refresh token
+### Refresh token
 POST http://localhost:3000/auth/token HTTP/1.1
 content-type: application/json
 
 {
-    "token": "admin",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ5MTYyNTczfQ.IOO7ncXeuqBDvXk06f4P3Pz5Id7w_iltuFYDVaEoyJs"
 }
 
 

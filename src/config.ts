@@ -8,7 +8,7 @@ export const appConfig = {
 };
 
 export const authConfig = {
-  accessToxenExpiration: '20m', //jwt expiration string
+  accessToxenExpiration: '15s', //jwt expiration string
   autoLogoutPeriodMs: 30 * 60 * 1000,
   cleanExpiredTokensPeriodMs: 60 * 60 * 1000,
 };

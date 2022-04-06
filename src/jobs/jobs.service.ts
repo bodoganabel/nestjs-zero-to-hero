@@ -10,7 +10,6 @@ export class JobsService implements OnApplicationBootstrap {
 
   onApplicationBootstrap(): void {
     this.logger.log('Initializing jobs 👷‍♂️');
-    this.jwtService.test();
   }
 
   @Cron(

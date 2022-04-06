@@ -11,3 +11,7 @@ You may have to create a "task-management" database using pgAdmin.
 * Token (refreshing), Logout endpoints
 * Create Authorization, permissions, Learn the Guards, Lock taks deletion for PERM_DELETE_TASKS only
 * Host server on Heroku 
+--- Attila backend 
+
+
+* Password reset + email

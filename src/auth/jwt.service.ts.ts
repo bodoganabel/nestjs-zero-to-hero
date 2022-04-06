@@ -3,6 +3,7 @@ import {
   HttpStatus,
   Injectable,
   NotFoundException,
+  Request,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,6 +12,8 @@ import { IJwtTokenShape, JwtRefreshToken } from './jwt.entity';
 import * as jwt from 'jsonwebtoken';
 import { Secret } from 'jsonwebtoken';
 import { appConfig, authConfig, EDatabaseType } from 'src/config';
+import { GetUser } from './get-user.decorator';
+import { User } from './user.entity';
 
 @Injectable()
 export class JwtService {
@@ -28,23 +31,29 @@ export class JwtService {
     });
   }
 
-  async refreshJwtToken(refreshToken: JwtRefreshToken) {
-    if (refreshToken == null) throw new UnauthorizedException('Unauthorized');
+  async refreshJwtToken(refreshToken_token: string) {
+    if (refreshToken_token == null)
+      throw new UnauthorizedException('Unauthorized');
 
-    const existingRefreshToken = this.jwtRepository.findOne(refreshToken);
+    const existingRefreshToken = await this.jwtRepository.findOne({
+      token: refreshToken_token,
+    });
     if (!existingRefreshToken) throw new ForbiddenException('Forbidden');
     jwt.verify(
-      refreshToken.token,
+      refreshToken_token,
       process.env.REFRESH_TOKEN_SECRET as Secret,
-      (err: any, jwtPayload: IJwtTokenShape) => {
+      async (err: any, jwtPayload: IJwtTokenShape) => {
         if (err) {
           console.log(err);
           throw new ForbiddenException('Forbidden');
         }
         const accessToken = this.generateAccessToken(jwtPayload);
-        return { accessToken: accessToken };
+        console.log('accessToken:');
+        console.log(accessToken);
+        return accessToken;
       },
     );
+    return undefined;
   }
 
   public async deleteJwtToken(refreshToken: JwtRefreshToken) {
@@ -67,7 +76,7 @@ export class JwtService {
     });
 
     await this.jwtRepository.save(refreshToken);
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken: refreshToken.token };
   }
 
   public async removeExpiredJwtRefreshTokens() {
@@ -94,7 +103,11 @@ export class JwtService {
     }
   }
 
-  public test() {
+  public test(@GetUser() user: User, @Request() req) {
+    console.log('user');
+    console.log(user);
+    console.log('req.body');
+    console.log(req.body);
     console.log('Cross call test');
   }
 }
