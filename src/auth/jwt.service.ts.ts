@@ -23,7 +23,10 @@ export class JwtService {
   ) {}
 
   private generateAccessToken(jwtData: IJwtTokenShape) {
-    const serializedUser = { username: jwtData.username };
+    const serializedUser = {
+      username: jwtData.username,
+      permissions: jwtData.permissions,
+    };
     console.log('serializedUser:');
     console.log(serializedUser);
     return jwt.sign(serializedUser, process.env.ACCESS_TOKEN_SECRET as Secret, {

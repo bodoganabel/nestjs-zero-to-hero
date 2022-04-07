@@ -59,13 +59,13 @@ async function initUsers(userRepository: UserRepository) {
   const users = [
     {
       username: 'admin',
-      password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO',
+      password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO', //Pw12345_
       permissions: ERoles.ADMIN,
       task: [],
     },
     {
       username: 'user',
-      password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO',
+      password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO', //Pw12345_
       permissions: [],
       task: [],
     },

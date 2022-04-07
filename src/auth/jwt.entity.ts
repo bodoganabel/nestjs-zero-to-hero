@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export interface IJwtTokenShape {
   username: string;
+  permissions: string[] | undefined;
 }
 
 @Entity()

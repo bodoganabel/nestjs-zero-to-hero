@@ -1,7 +1,11 @@
 ### Test endpoint
 POST http://localhost:3000/auth/test HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ5MTYyNjEyLCJleHAiOjE2NDkxNjI2Mjd9.sNMmAphCQ6cK_hOLVLz5yRt9Ul80sOPU67SGDj0SkqA
+
+### Test endpoint - With Auth
+POST http://localhost:3000/auth/test HTTP/1.1
+content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGVybWlzc2lvbnMiOlsiR0VUX1VTRVJTIiwiREVMRVRFX1VTRVJTIiwiR0VUX1BFUk1JU1NJT05TIiwiVVBEQVRFX1BFUk1JU1NJT05TIl0sImlhdCI6MTY0OTM3NTg4MywiZXhwIjoxNjQ5Mzc1ODk4fQ.JNrImt8HWp8DUv9-NxUiYMGJ8hMABF5-O8JcmEPeLTU
 
 
 

@@ -1,9 +1,17 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AssignPermissionsToUserDto } from './dto/assign-permissions-to-user.dto';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { GetUser } from './get-user.decorator';
 import { JwtService } from './jwt.service.ts';
+import { PermissionGuard } from './permissions-required.guard';
 import { User } from './user.entity';
 
 export interface ISigninResponse {
@@ -37,6 +45,7 @@ export class AuthController {
     return refreshedAccessToken;
   }
 
+  //@UseGuards(new PermissionGuard(@GetUser user))
   @Post('/test')
   async test(@GetUser() user: User, @Request() req: Request) {
     console.log('test auth');
