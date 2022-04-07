@@ -54,17 +54,28 @@ async function initPermissions(databaseConnection: Connection) {
 async function initUsers(userRepository: UserRepository) {
   //Cleanup
   await userRepository.delete({});
-  //Insert default
-  const users = userRepository.create({
-    username: 'admin',
-    password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO',
-    permissions: ERoles.ADMIN,
-    task: [],
-  });
-  const rolesResult = await userRepository.save(users);
 
-  console.log('rolesResult');
-  console.log(rolesResult);
+  //Insert default
+  const users = [
+    {
+      username: 'admin',
+      password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO',
+      permissions: ERoles.ADMIN,
+      task: [],
+    },
+    {
+      username: 'user',
+      password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO',
+      permissions: [],
+      task: [],
+    },
+  ];
+
+  userRepository.create(users);
+  const userResult = await userRepository.save(users);
+
+  console.log('userResult');
+  console.log(userResult);
 }
 
 //* ROLES PERMISSIONS
