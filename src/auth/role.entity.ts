@@ -1,5 +1,12 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Permission } from './permission.entity';
 import { User } from './user.entity';
 
 export interface IJwtPayload {
@@ -19,11 +26,18 @@ export class Role {
   id: string;
 
   @Column({ unique: true })
-  role: ERoles;
+  roleName: ERoles;
 
-  @OneToMany(() => User, (user) => user.role, {
+  /* @OneToMany(() => User, (user) => user.role, {
     eager: false,
   })
   @Exclude({ toPlainOnly: true })
   users: User[];
+
+  @ManyToMany(() => Permission, (permission) => permission.roles, {
+    eager: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  permissions: Permission[]; */
 }

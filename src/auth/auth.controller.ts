@@ -1,5 +1,6 @@
-import { Body, Controller, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AssignPermissionsToUserDto } from './dto/assign-permissions-to-user.dto';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { GetUser } from './get-user.decorator';
 import { JwtService } from './jwt.service.ts';
@@ -40,5 +41,31 @@ export class AuthController {
   async test(@GetUser() user: User, @Request() req: Request) {
     console.log('test auth');
     this.jwtService.test(user, req);
+  }
+
+  @Get('/permissions')
+  async permissions() {
+    return this.authService.getPermissions();
+  }
+
+  @Get('/roles')
+  async roles() {
+    return this.authService.getRoles();
+  }
+
+  @Get('/users')
+  async users() {
+    return this.authService.getUsers();
+  }
+
+  @Post('/assign-permissions-to-user')
+  async assignPermissionsToUser(
+    @Body() assignPermissionsToUserDto: AssignPermissionsToUserDto,
+  ) {
+    console.log('test auth');
+    return await this.authService.assignPermissionsToUser(
+      assignPermissionsToUserDto.username,
+      assignPermissionsToUserDto.permissionsToSet,
+    );
   }
 }

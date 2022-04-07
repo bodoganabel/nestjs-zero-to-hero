@@ -27,10 +27,10 @@ export class User {
   @Column()
   password: string;
 
-  @ManyToOne(() => Role, (role) => role.users, {
+  /*   @ManyToOne(() => Role, (role) => role.users, {
     eager: true,
   })
-  role: Role;
+  role: Role; */
 
   @ManyToMany(() => Permission)
   @JoinTable()
@@ -38,4 +38,17 @@ export class User {
 
   @OneToMany(() => Task, (task) => task.user, { eager: true })
   task: Task[];
+
+  addPermissions(permissions: Permission[]) {
+    if (this.permissions == null) {
+      this.permissions = new Array<Permission>();
+    }
+    permissions.forEach((permission: Permission) => {
+      console.log('permission pushed');
+      console.log(permission);
+      this.permissions.push(permission);
+    });
+    console.log('this.permissions');
+    console.log(this.permissions);
+  }
 }

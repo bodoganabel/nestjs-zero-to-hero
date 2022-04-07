@@ -1,4 +1,3 @@
-import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -25,15 +24,19 @@ export class Permission {
   id: string;
 
   @Column({ unique: true })
-  permission: EPermissions;
+  permissionName: string;
 
-  @ManyToMany(() => User)
+  /*   @ManyToMany(() => User, (users) => users.permissions, {
+    eager: false,
+  })
   @JoinTable()
-  @Exclude({ toPlainOnly: true })
-  users: User[];
+  users: User[]; */
 
-  @ManyToMany(() => Role)
+  /*   @ManyToMany(() => Role, (roles) => roles.permissions, {
+    eager: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   @JoinTable()
-  @Exclude({ toPlainOnly: true })
-  roles: User[];
+  roles: Role[]; */
 }

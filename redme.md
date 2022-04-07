@@ -15,3 +15,5 @@ You may have to create a "task-management" database using pgAdmin.
 
 
 * Password reset + email
+
+* change TypeORM to MikroORM: https://docs.nestjs.com/recipes/mikroorm
