@@ -1,20 +1,20 @@
 import { Task } from 'src/tasks/task.entity';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { Permission } from './permission.entity';
-import { Role } from './role.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export interface IJwtPayload {
   username: string;
-  permissions: Permission[];
+  permissions: string[];
 }
+
+export enum EPermissions {
+  GET_USERS = 'GET_USERS',
+  DELETE_USERS = 'DELETE_USERS',
+  GET_PERMISSIONS = 'GET_PERMISSIONS',
+  UPDATE_PERMISSIONS = 'UPDATE_PERMISSIONS',
+}
+export const ERoles = {
+  ADMIN: Object.values(EPermissions),
+};
 
 @Entity()
 export class User {
@@ -27,28 +27,9 @@ export class User {
   @Column()
   password: string;
 
-  /*   @ManyToOne(() => Role, (role) => role.users, {
-    eager: true,
-  })
-  role: Role; */
-
-  @ManyToMany(() => Permission)
-  @JoinTable()
-  permissions: Permission[];
+  @Column('text', { array: true, nullable: true })
+  permissions: string[];
 
   @OneToMany(() => Task, (task) => task.user, { eager: true })
   task: Task[];
-
-  addPermissions(permissions: Permission[]) {
-    if (this.permissions == null) {
-      this.permissions = new Array<Permission>();
-    }
-    permissions.forEach((permission: Permission) => {
-      console.log('permission pushed');
-      console.log(permission);
-      this.permissions.push(permission);
-    });
-    console.log('this.permissions');
-    console.log(this.permissions);
-  }
 }

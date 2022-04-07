@@ -9,7 +9,7 @@ You may have to create a "task-management" database using pgAdmin.
 ## TODO ##
 * ✅ Run a jwt-refresh-token cleanup every hour - delete all tokens, which autoLogout date is expired. Also delete the onse which are lasts longer than in authConfig - for security reasons. 
 * Token (refreshing), Logout endpoints
-* Create Authorization, permissions, Learn the Guards, Lock taks deletion for PERM_DELETE_TASKS only
+* Create Authorization, dumb permissions, Learn the Guards, Lock taks deletion for PERM_DELETE_TASKS only
 * Host server on Heroku 
 --- Attila backend 
 
@@ -17,3 +17,6 @@ You may have to create a "task-management" database using pgAdmin.
 * Password reset + email
 
 * change TypeORM to MikroORM: https://docs.nestjs.com/recipes/mikroorm
+* Permissions and roles with manytomany relations - MikroORM/Mongoose
+  - Admins should create roles with custom set of permissions.
+  - Admins and the app should add custom set of permissions to users

@@ -1,5 +1,4 @@
-import { EPermissions, Permission } from 'src/auth/permission.entity';
-import { ERoles } from 'src/auth/role.entity';
+import { EPermissions, ERoles } from 'src/auth/user.entity';
 import { UserRepository } from 'src/auth/user.repository';
 import { Connection } from 'typeorm';
 
@@ -16,7 +15,8 @@ export async function initDb(
 
 //* ROLES
 async function initRoles(databaseConnection: Connection) {
-  //Cleanup
+  console.log('Roles are not implemented yet');
+  /*   //Cleanup
   await databaseConnection.query('DELETE FROM role;');
   //Insert default
   const roles: string[] = [];
@@ -28,7 +28,7 @@ async function initRoles(databaseConnection: Connection) {
   const rolesResult = await databaseConnection.query(roles.join(' '));
 
   console.log('rolesResult');
-  console.log(rolesResult);
+  console.log(rolesResult); */
 }
 
 //* PERMISSIONS
@@ -58,7 +58,7 @@ async function initUsers(userRepository: UserRepository) {
   const users = userRepository.create({
     username: 'admin',
     password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO',
-    permissions: [],
+    permissions: ERoles.ADMIN,
     task: [],
   });
   const rolesResult = await userRepository.save(users);

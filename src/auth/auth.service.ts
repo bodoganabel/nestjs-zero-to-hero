@@ -1,19 +1,15 @@
 import {
-  BadRequestException,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
-import { IJwtPayload, User } from 'src/auth/user.entity';
+import { EPermissions, IJwtPayload, User } from 'src/auth/user.entity';
 import { ISigninResponse } from './auth.controller';
 import { JwtService } from './jwt.service.ts';
-import { PermissionRepository } from './permission.repository';
-import { RoleRepository } from './role.repository';
 import { isArrayContainsAllTargetElements } from 'src/utils/arrayFunctions';
 
 @Injectable()
@@ -21,8 +17,6 @@ export class AuthService {
   constructor(
     @InjectRepository(UserRepository)
     private userRepository: UserRepository,
-    private roleRepository: RoleRepository,
-    private permissionRepository: PermissionRepository,
     private jwtService: JwtService,
   ) {}
 
@@ -54,21 +48,18 @@ export class AuthService {
     const user = await this.userRepository.findOne({ username });
     console.log('user::');
     console.log(user);
-    const existingPermissions = await this.permissionRepository.find(); // get all permissions to avoid SQL INJECTION
+    const existingPermissions = Object.values(EPermissions); // get all permissions to avoid SQL INJECTION
 
     if (
       user &&
-      isArrayContainsAllTargetElements(
-        existingPermissions.map((permission) => permission.permissionName),
-        permissionsToSet,
-      )
+      isArrayContainsAllTargetElements(existingPermissions, permissionsToSet)
     ) {
       const permissionsToApply = existingPermissions.filter((permission) =>
-        permissionsToSet.includes(permission.permissionName),
+        permissionsToSet.includes(permission),
       );
       console.log('permissionsToApply:');
       console.log(permissionsToApply);
-      user.addPermissions(permissionsToApply);
+      user.permissions = permissionsToApply;
       console.log('updated, but not yet saved user');
       console.log(user);
       await this.userRepository.save(user);
@@ -82,13 +73,11 @@ export class AuthService {
   }
 
   async getPermissions(): Promise<string[]> {
-    const permissions = await this.permissionRepository.find();
-    return permissions.map((permission) => permission.permissionName);
+    return Object.values(EPermissions);
   }
 
   async getRoles(): Promise<string[]> {
-    const roles = await this.roleRepository.find();
-    return roles.map((role) => role.roleName);
+    return ['Roles are not implemented'];
   }
 
   async getUsers(): Promise<User[]> {
