@@ -12,7 +12,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { GetUser } from './get-user.decorator';
 import { JwtService } from './jwt.service.ts';
 import { PermissionGuard } from './permissions-required.guard';
-import { User } from './user.entity';
+import { EPermissions, User } from './user.entity';
 
 export interface ISigninResponse {
   accessToken: string;
@@ -45,7 +45,13 @@ export class AuthController {
     return refreshedAccessToken;
   }
 
-  //@UseGuards(new PermissionGuard(@GetUser user))
+  @UseGuards(
+    new PermissionGuard([
+      EPermissions.DELETE_USERS,
+      EPermissions.GET_USERS,
+      EPermissions.UPDATE_PERMISSIONS,
+    ]),
+  )
   @Post('/test')
   async test(@GetUser() user: User, @Request() req: Request) {
     console.log('test auth');
