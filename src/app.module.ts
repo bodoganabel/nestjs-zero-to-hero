@@ -1,8 +1,5 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
-import { join } from 'path';
-import { TasksModule } from './tasks/tasks.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { JobsModule } from './jobs/jobs.module';
@@ -15,8 +12,9 @@ import { getMongodbConnectionString } from './config';
     ConfigModule.forRoot({
       envFilePath: [`.env.stage.${process.env.STAGE}`],
     }),
-    TasksModule,
-    MongooseModule.forRoot(getMongodbConnectionString()),
+    MongooseModule.forRoot(getMongodbConnectionString(), {
+      dbName: process.env.MONGODB_DATABASE_NAME,
+    }),
     AuthModule,
     JobsModule,
     BootstrapModule,

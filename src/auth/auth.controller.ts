@@ -5,14 +5,16 @@ import {
   Post,
   Request,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
+import MongooseClassSerializerInterceptor from 'src/interceptors/mongooseClassSerializer.intercepptor';
 import { AuthService } from './auth.service';
 import { AssignPermissionsToUserDto } from './dto/assign-permissions-to-user.dto';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { GetUser } from './get-user.decorator';
-import { JwtService } from './jwt.service.ts';
+import { JwtService } from './jwt.service';
 import { PermissionGuard } from './permissions-required.guard';
-import { EPermissions, User } from './user.entity';
+import { EPermissions, User } from './user.schema';
 
 export interface ISigninResponse {
   accessToken: string;
@@ -20,13 +22,14 @@ export interface ISigninResponse {
 }
 
 @Controller('auth')
+@UseInterceptors(MongooseClassSerializerInterceptor(User))
 export class AuthController {
   constructor(
     private authService: AuthService,
     private jwtService: JwtService,
   ) {}
   @Post('/signup')
-  signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<void> {
+  signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<User> {
     return this.authService.signUp(authCredentialsDto);
   }
   @Post('/signin')

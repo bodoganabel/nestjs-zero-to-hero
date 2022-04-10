@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { decodeJwtToken } from 'src/auth/jwt.functions';
-import { IJwtPayload } from 'src/auth/user.entity';
+import { IJwtPayload } from 'src/auth/user.schema';
 
 @Injectable()
 export class AttachUserToRequestMiddleware implements NestMiddleware {

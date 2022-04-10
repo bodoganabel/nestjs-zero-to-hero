@@ -14,7 +14,7 @@ export const authConfig = {
 };
 
 export function getMongodbConnectionString() {
-  const connectionString = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE_NAME}`;
+  const connectionString = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}`;
   console.log('MONGODB connection string:');
   console.log(connectionString);
 

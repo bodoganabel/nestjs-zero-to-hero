@@ -6,20 +6,24 @@ import {
   Request,
   UnauthorizedException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { JwtRepository } from './jwt.repository';
-import { IJwtTokenShape, JwtRefreshToken } from './jwt.entity';
+import {
+  IJwtTokenShape,
+  JwtRefreshToken,
+  JwtRefreshTokenDocument,
+} from './jwt.schema';
 import * as jwt from 'jsonwebtoken';
 import { Secret } from 'jsonwebtoken';
 import { appConfig, authConfig, EDatabaseType } from 'src/config';
 import { GetUser } from './get-user.decorator';
-import { User } from './user.entity';
+import { User } from './user.schema';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class JwtService {
   constructor(
-    @InjectRepository(JwtRepository)
-    private jwtRepository: JwtRepository,
+    @InjectModel(JwtRefreshToken.name)
+    private jwtModel: Model<JwtRefreshTokenDocument>,
   ) {}
 
   private generateAccessToken(jwtData: IJwtTokenShape) {
@@ -38,7 +42,7 @@ export class JwtService {
     if (refreshToken_token == null)
       throw new UnauthorizedException('Unauthorized');
 
-    const existingRefreshToken = await this.jwtRepository.findOne({
+    const existingRefreshToken = await this.jwtModel.findOne({
       token: refreshToken_token,
     });
     if (!existingRefreshToken) throw new ForbiddenException('Forbidden');
@@ -60,8 +64,8 @@ export class JwtService {
   }
 
   public async deleteJwtToken(refreshToken: JwtRefreshToken) {
-    const result = await this.jwtRepository.delete(refreshToken);
-    if (result.affected === 0) {
+    const result = await this.jwtModel.deleteOne(refreshToken);
+    if (result.deletedCount === 0) {
       throw new NotFoundException(
         `Token not found "${refreshToken.token}" not found`,
       );
@@ -71,19 +75,20 @@ export class JwtService {
 
   public async authenticateUserWithJwt(clientJwt: IJwtTokenShape) {
     const accessToken = this.generateAccessToken(clientJwt);
-    const refreshToken = this.jwtRepository.create({
+    const refreshToken = await this.jwtModel.create({
       token: jwt.sign(clientJwt, process.env.REFRESH_TOKEN_SECRET as Secret),
       autoLogout: new Date(
         new Date().getTime() + authConfig.autoLogoutPeriodMs,
       ),
     });
 
-    await this.jwtRepository.save(refreshToken);
+    //await this.jwtModel.save(refreshToken);
     return { accessToken, refreshToken: refreshToken.token };
   }
 
   public async removeExpiredJwtRefreshTokens() {
-    if (appConfig.databaseType === EDatabaseType.SQL) {
+    console.log('❌❌❌ No NOSQL database interaction implemented. #131abb');
+    /* if (appConfig.databaseType === EDatabaseType.SQL) {
       const result = await this.jwtRepository
         .createQueryBuilder()
         .delete()
@@ -103,7 +108,7 @@ export class JwtService {
         '❌❌❌ No NOSQL database interaction implemented. #131abb',
       );
       console.log('❌❌❌ No NOSQL database interaction implemented. #131abb');
-    }
+    } */
   }
 
   public test(@GetUser() user: User, @Request() req) {
