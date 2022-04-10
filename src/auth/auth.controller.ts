@@ -60,7 +60,7 @@ export class AuthController {
     console.log('test auth');
     this.jwtService.test(user, req);
   }
-
+  @UseGuards(new PermissionGuard([EPermissions.GET_PERMISSIONS]))
   @Get('/permissions')
   async permissions() {
     return this.authService.getPermissions();

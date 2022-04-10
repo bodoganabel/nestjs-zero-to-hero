@@ -1,8 +1,7 @@
 ### Get All permissions
 GET http://localhost:3000/auth/permissions HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ5MTYyNjEyLCJleHAiOjE2NDkxNjI2Mjd9.sNMmAphCQ6cK_hOLVLz5yRt9Ul80sOPU67SGDj0SkqA
-
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGVybWlzc2lvbnMiOltudWxsLG51bGwsbnVsbF0sImlhdCI6MTY0OTYwNjY5MywiZXhwIjoxNjQ5NjA2NzA4fQ.QYSLKOdNsHJPd13883Sqhf8_O71cM9zvE2BmzTf_hbU
 
 ### Assign permissions to user
 GET http://localhost:3000/auth/roles HTTP/1.1
@@ -13,10 +12,10 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkb
 ### Update user permissions
 POST http://localhost:3000/auth/assign-permissions-to-user HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ5MTYyNjEyLCJleHAiOjE2NDkxNjI2Mjd9.sNMmAphCQ6cK_hOLVLz5yRt9Ul80sOPU67SGDj0SkqA
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGVybWlzc2lvbnMiOltudWxsLG51bGwsbnVsbF0sImlhdCI6MTY0OTYwNjA3NiwiZXhwIjoxNjQ5NjA2MDkxfQ.QciPAHTlPX3J5f0beUyAcs9XHQCr_sINFS_FA6HRxk4
 
 {
-    "username": "admin",
+    "username": "user",
     "permissionsToSet": ["DELETE_USERS"]
 }
 

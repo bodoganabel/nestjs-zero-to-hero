@@ -14,7 +14,7 @@ POST http://localhost:3000/auth/signup HTTP/1.1
 content-type: application/json
 
 {
-    "username": "admin",
+    "username": "createnewuser",
     "password": "Pw12345_"
 }
 
@@ -32,7 +32,7 @@ POST http://localhost:3000/auth/token HTTP/1.1
 content-type: application/json
 
 {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjQ5MTYyNTczfQ.IOO7ncXeuqBDvXk06f4P3Pz5Id7w_iltuFYDVaEoyJs"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGVybWlzc2lvbnMiOltudWxsLG51bGwsbnVsbF0sImlhdCI6MTY0OTYwNTQ0Nn0.AADRK0zddjELVTrqsmgbKcNdOgpAwY9F6b21VQfSSqw"
 }
 
 
@@ -41,5 +41,5 @@ POST http://localhost:3000/auth/signout HTTP/1.1
 content-type: application/json
 
 {
-    "token": "Pw12345_"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicGVybWlzc2lvbnMiOltudWxsLG51bGwsbnVsbF0sImlhdCI6MTY0OTYwNTQ3NywiZXhwIjoxNjQ5NjA1NDkyfQ.RchEvX0yViKyNW_V82YgPs0KMvydCdFcV_hTvNN4340"
 }

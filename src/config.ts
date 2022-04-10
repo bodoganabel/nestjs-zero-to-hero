@@ -9,8 +9,9 @@ export const appConfig = {
 
 export const authConfig = {
   accessToxenExpiration: process.env.STAGE === 'developnet' ? '30m' : '15s', //jwt expiration string
-  autoLogoutPeriodMs: 30 * 60 * 1000,
+  autoLogoutPeriodMs: 15 * 60 * 60 * 1000,
   cleanExpiredTokensPeriodMs: 60 * 60 * 1000,
+  saltRounds: 10, // Used to generate sand on registration
 };
 
 export function getMongodbConnectionString() {

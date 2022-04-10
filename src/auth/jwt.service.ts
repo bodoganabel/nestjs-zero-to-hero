@@ -13,7 +13,7 @@ import {
 } from './jwt.schema';
 import * as jwt from 'jsonwebtoken';
 import { Secret } from 'jsonwebtoken';
-import { appConfig, authConfig, EDatabaseType } from 'src/config';
+import { authConfig } from 'src/config';
 import { GetUser } from './get-user.decorator';
 import { User } from './user.schema';
 import { InjectModel } from '@nestjs/mongoose';
@@ -87,28 +87,19 @@ export class JwtService {
   }
 
   public async removeExpiredJwtRefreshTokens() {
-    console.log('❌❌❌ No NOSQL database interaction implemented. #131abb');
-    /* if (appConfig.databaseType === EDatabaseType.SQL) {
-      const result = await this.jwtRepository
-        .createQueryBuilder()
-        .delete()
-        .from(JwtRefreshToken)
-        .where('autoLogout < :now', { now: new Date() })
-        //Delete tokens, if expiration date is suspiciously too far in future
-        .orWhere('autoLogout > :securityLogoutDate', {
-          securityLogoutDate: new Date(
-            new Date().getTime() + authConfig.autoLogoutPeriodMs + 1000,
-          ),
-        })
-        .execute();
-      console.log('Executed purge of expired jwt tokens. Result: ');
-      console.log(result);
-    } else {
-      throw new Error(
-        '❌❌❌ No NOSQL database interaction implemented. #131abb',
-      );
-      console.log('❌❌❌ No NOSQL database interaction implemented. #131abb');
-    } */
+    const result = await this.jwtModel.deleteMany({
+      $or: [
+        { autoLogout: { $lt: new Date() } },
+        {
+          autoLogout: {
+            $gt: new Date(
+              new Date().getTime() + authConfig.autoLogoutPeriodMs + 1000,
+            ),
+          },
+        }, //Delete tokens, if expiration date is suspiciously too far in future
+      ],
+    });
+    console.log(result);
   }
 
   public test(@GetUser() user: User, @Request() req) {
