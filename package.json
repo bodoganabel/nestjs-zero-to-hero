@@ -12,6 +12,7 @@
         "start:dev": "cross-env STAGE=development nest start --watch",
         "start:debug": "cross-env STAGE=development nest start --debug --watch",
         "start:prod": "npm run build && cross-env STAGE=production node dist/main",
+        "start": "start:prod",
         "db:dev:setup": "npm run db:mongodb:setup",
         "db:dev:start": "npm run db:mongodb:start",
         "db:dev:stop": "npm run db:mongodb:stop",
