@@ -1,5 +1,5 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
-import { IJwtPayload } from './user.entity';
+import { IJwtPayload } from './user.schema';
 
 export const GetUser = createParamDecorator(
   (_data, ctx: ExecutionContext): IJwtPayload => {

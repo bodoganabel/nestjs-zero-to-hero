@@ -1,84 +1,71 @@
-import { EPermissions, ERoles } from 'src/auth/user.entity';
-import { UserRepository } from 'src/auth/user.repository';
+import { EPermissions, ERoles, User, UserDocument } from 'src/auth/user.schema';
 import { Connection } from 'typeorm';
+import { Model } from 'mongoose';
+import { Permission, PermissionDocument } from 'src/auth/permission.schema';
+import { usersInit } from './users.init';
 
 export async function initDb(
-  databaseConnection: Connection,
-  userRepository: UserRepository,
+  userModel: Model<UserDocument>,
+  permissionModel: Model<PermissionDocument>,
 ) {
   if (process.env.STAGE === 'development') {
-    await initRoles(databaseConnection);
-    //await initPermissions(databaseConnection);
-    await initUsers(userRepository);
+    await initPermissions(permissionModel);
+    await initUsers(userModel, permissionModel);
   }
 }
 
-//* ROLES
+// * ROLES
 async function initRoles(databaseConnection: Connection) {
   console.log('Roles are not implemented yet');
-  /*   //Cleanup
-  await databaseConnection.query('DELETE FROM role;');
-  //Insert default
-  const roles: string[] = [];
-  Object.values(ERoles).forEach((role) =>
-    roles.push(
-      `INSERT INTO role VALUES (uuid_generate_v4 ()::uuid,'${role}');`,
-    ),
-  );
-  const rolesResult = await databaseConnection.query(roles.join(' '));
-
-  console.log('rolesResult');
-  console.log(rolesResult); */
 }
 
 //* PERMISSIONS
-async function initPermissions(databaseConnection: Connection) {
+async function initPermissions(permissionModel: Model<PermissionDocument>) {
   //Cleanup
-  await databaseConnection.query('DELETE FROM permission;');
+  await permissionModel.deleteMany({});
   //Insert default
-  const permissions: string[] = [];
-  Object.values(EPermissions).forEach((permission) =>
-    permissions.push(
-      `INSERT INTO permission VALUES (uuid_generate_v4 ()::uuid,'${permission}');`,
-    ),
-  );
-  const permissionsResult = await databaseConnection.query(
-    permissions.join(' '),
-  );
+  const permissions: Permission[] = [];
+  Object.values(EPermissions).forEach((name) => {
+    const permission = new Permission();
+    permission.name = name;
+    permissions.push(permission);
+  });
+  const permissionsResult = await permissionModel.insertMany(permissions);
 
   console.log('permissionsResult');
   console.log(permissionsResult);
 }
 
-//* USERS
-async function initUsers(userRepository: UserRepository) {
+// * USERS
+async function initUsers(
+  userModel: Model<UserDocument>,
+  permissionModel: Model<PermissionDocument>,
+) {
   //Cleanup
-  await userRepository.delete({});
+  await userModel.deleteMany({});
 
-  //Insert default
-  const users = [
-    {
-      username: 'admin',
-      password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO', //Pw12345_
-      permissions: ERoles.ADMIN,
-      task: [],
-    },
-    {
-      username: 'user',
-      password: '$2b$10$WFS2aib5jttr8rrh9QCnYukBJbwnNrg.dyZv6vtt8NZa0RmHPYXGO', //Pw12345_
-      permissions: [],
-      task: [],
-    },
-  ];
+  const existingPermissions: Permission[] = await permissionModel.find();
+  const usersToCreate = [];
+  usersInit.forEach((user) => {
+    const requestedPermissions = user.permissions;
+    const permissionsToAdd = existingPermissions.filter((permission) =>
+      requestedPermissions.includes(permission.name),
+    );
+    const permissionsToAddIds = permissionsToAdd.map(
+      (permission) => permission._id,
+    );
+    const userToPush: any = user; // Overwriting Enum Permissions to database Permission instances
+    userToPush.permissions = permissionsToAddIds;
+    usersToCreate.push(userToPush);
+  });
 
-  userRepository.create(users);
-  const userResult = await userRepository.save(users);
+  const userResult = await userModel.insertMany(usersToCreate);
 
   console.log('userResult');
   console.log(userResult);
 }
 
-//* ROLES PERMISSIONS
+// * ROLES PERMISSIONS
 async function connectRolesWithPermissions(databaseConnection: Connection) {
   //Cleanup
   await databaseConnection.query('DELETE FROM permission;');
