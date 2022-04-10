@@ -20,7 +20,7 @@ import { Task } from './task.entity';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
-@UseGuards(AuthGuard())
+//@UseGuards(() => true)
 export class TasksController {
   constructor(
     private tasksService: TasksService,
