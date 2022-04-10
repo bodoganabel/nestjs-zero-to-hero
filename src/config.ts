@@ -12,3 +12,11 @@ export const authConfig = {
   autoLogoutPeriodMs: 30 * 60 * 1000,
   cleanExpiredTokensPeriodMs: 60 * 60 * 1000,
 };
+
+export function getMongodbConnectionString() {
+  const connectionString = `mongodb://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_DATABASE_NAME}`;
+  console.log('MONGODB connection string:');
+  console.log(connectionString);
+
+  return connectionString;
+}
